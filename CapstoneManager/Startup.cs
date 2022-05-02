@@ -32,6 +32,7 @@ namespace CapstoneManager
         {
             services.AddTransient<ITeacherRepository, TeacherRepository>();
             services.AddTransient<IClassRepository, ClassRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services

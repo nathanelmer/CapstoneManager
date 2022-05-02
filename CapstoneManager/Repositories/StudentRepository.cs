@@ -5,7 +5,7 @@ using CapstoneManager.Utils;
 
 namespace CapstoneManager.Repositories
 {
-    public class StudentRepository : BaseRepository
+    public class StudentRepository : BaseRepository, IStudentRepository
     {
         public StudentRepository(IConfiguration config) : base(config) { }
 
@@ -22,7 +22,7 @@ namespace CapstoneManager.Repositories
                                         WHERE s.ClassId = @id";
                     cmd.Parameters.AddWithValue("@id", id);
                     var reader = cmd.ExecuteReader();
-                    List<Student> students = null;
+                    List<Student> students = new List<Student>();
                     while (reader.Read())
                     {
                         var student = new Student()
