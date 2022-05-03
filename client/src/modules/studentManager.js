@@ -18,3 +18,20 @@ export const getStudentsByClassId = (id) => {
         });
     });
 }
+
+export const getStudentById = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${studentUrl}/details/${id}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("Unknown error getting student");
+            }
+        });
+    });
+}

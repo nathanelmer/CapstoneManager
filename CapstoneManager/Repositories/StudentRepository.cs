@@ -46,5 +46,43 @@ namespace CapstoneManager.Repositories
                 }
             }
         }
+
+        public Student GetStudentById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using ( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT s.Id, s.ClassId, s.Name, s.ProposalTitle, s.Note, p.Id progressId, p.Name progressName, p.ImageUrl
+                                        FROM Student s
+                                        JOIN Progress p ON p.Id = s.ProgressId
+                                        WHERE s.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    Student student = null;
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        student = new Student()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            ClassId = DbUtils.GetInt(reader, "ClassId"),
+                            ProposalTitle = DbUtils.GetString(reader, "ProposalTitle"),
+                            Note = DbUtils.GetString(reader, "Note"),
+                            Progress = new Progress()
+                            {
+                                Id = DbUtils.GetInt(reader, "progressId"),
+                                Name = DbUtils.GetString(reader, "progressName"),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return student;
+                }
+            }
+        }
     }
 }

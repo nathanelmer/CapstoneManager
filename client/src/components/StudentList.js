@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getStudentsByClassId } from "../modules/studentManager";
-import { Card, CardBody, CardLink, CardSubtitle, Container } from "reactstrap";
+import { Card, CardTitle, CardSubtitle, Container, CardLink } from "reactstrap";
 import "../index.css";
 import { getProgressTypes } from "../modules/progressManager";
+import { Link } from "react-router-dom";
 
 export const StudentList = () => {
     const [students, setStudents] = useState([])
@@ -32,15 +33,17 @@ export const StudentList = () => {
             <div>
                 <select onChange={(e) => filterList(e.target.value)}>
                     <option value="0">All Students</option>
-                    {progressTypes.map(p => <option value={p.id}>{p.name}</option>)}
+                    {progressTypes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
             </div>
             {students.map(s => <Card key={s.id}>
-                <CardBody>{s.name}</CardBody>
-                <CardLink>Edit</CardLink>
+                <CardTitle>
+                    <Link to={`student/details/${s.id}`}>{s.name}</Link>
+                </CardTitle>
                 <CardSubtitle>
                     <img src={s.progress.imageUrl} />
                 </CardSubtitle>
+                <CardLink>Edit</CardLink>
             </Card>)}
         </Container>
     )

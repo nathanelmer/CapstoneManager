@@ -20,5 +20,10 @@ namespace CapstoneManager.Controllers
         {
             return Ok(_studentRepo.GetStudentsByClassId(id));
         }
+        [HttpGet("details/{id}")]
+        public IActionResult GetStudent(int id)
+        {
+            return Ok(_studentRepo.GetStudentById(id));
+        }
     }
 }
