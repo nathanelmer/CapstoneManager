@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container } from "reactstrap";
+import { CardLink, Container } from "reactstrap";
 import { getClasses } from "../modules/classManager";
 import { Class } from "./Class";
 
@@ -17,6 +17,7 @@ export default function ClassList() {
                     <Class clas={c} key={c.id} />
                 ))
             }
+            <CardLink>Add New Class</CardLink>
         </Container>
     );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getStudentsByClassId } from "../modules/studentManager";
+import { getStudentsByClassId, deleteStudent } from "../modules/studentManager";
 import { Card, CardTitle, CardSubtitle, Container, CardLink } from "reactstrap";
 import "../index.css";
 import { getProgressTypes } from "../modules/progressManager";
@@ -47,6 +47,7 @@ export const StudentList = () => {
                     <img src={s.progress.imageUrl} />
                 </CardSubtitle>
                 <CardLink href={`/class/student/edit/${s.id}`}>Manage</CardLink>
+                <CardLink href={`/class/student/delete/${s.id}`}>Delete</CardLink>
             </Card>)}
         </Container>
     )

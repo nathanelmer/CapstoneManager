@@ -45,7 +45,11 @@ namespace CapstoneManager.Controllers
             _studentRepo.Add(student);
             return NoContent();
         }
-
-
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _studentRepo.Delete(id);
+            return NoContent();
+        }
     }
 }

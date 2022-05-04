@@ -7,6 +7,7 @@ import { StudentList } from "./StudentList";
 import { StudentDetails } from "./StudentDetails";
 import { StudentEdit } from "./StudentEdit";
 import { StudentForm } from "./StudentForm";
+import { StudentDelete } from "./StudentDelete";
 
 export default function ApplicationViews({ isLoggedIn }) {
     return (
@@ -29,6 +30,9 @@ export default function ApplicationViews({ isLoggedIn }) {
                 </Route>
                 <Route exact path="/class/student/add/:id(\d+)">
                     <StudentForm />
+                </Route>
+                <Route exact path="/class/student/delete/:id(\d+)">
+                    <StudentDelete />
                 </Route>
                 <Route path="/register">
                     <Register />

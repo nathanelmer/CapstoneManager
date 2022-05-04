@@ -9,5 +9,6 @@ namespace CapstoneManager.Repositories
         Student GetStudentById(int id);
         public void Update(Student student);
         public void Add(Student student);
+        public void Delete(int id);
     }
 }

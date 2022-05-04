@@ -32,6 +32,18 @@ export const addStudent = (student) => {
     })
 }
 
+export const deleteStudent = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${studentUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+    });
+};
+
 export const getStudentById = (id) => {
     return getToken().then((token) => {
         return fetch(`${studentUrl}/details/${id}`, {

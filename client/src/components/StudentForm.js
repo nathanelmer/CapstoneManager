@@ -25,7 +25,7 @@ export const StudentForm = () => {
     }, [])
 
     const postStudent = () => {
-        addStudent(student).then(() => history.psuh(`/class/${id}`));
+        addStudent(student);
     };
 
     const handleInputChange = (evt) => {
