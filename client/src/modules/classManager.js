@@ -18,3 +18,29 @@ export const getClasses = () => {
         });
     });
 };
+
+export const addClass = (newClass) => {
+    return getToken().then((token) => {
+        return fetch(`${classUrl}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newClass)
+        })
+    })
+}
+
+export const addTeacherClass = (teacherClass) => {
+    return getToken().then((token) => {
+        return fetch(`${classUrl}/teacherClass`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(teacherClass)
+        })
+    })
+}

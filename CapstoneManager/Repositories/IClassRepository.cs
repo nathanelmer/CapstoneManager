@@ -6,5 +6,7 @@ namespace CapstoneManager.Repositories
     public interface IClassRepository
     {
         List<Class> GetClassesByTeacherId(int id);
+        int Add(Class newClass);
+        void AddTeacherClass(TeacherClass tc);
     }
 }

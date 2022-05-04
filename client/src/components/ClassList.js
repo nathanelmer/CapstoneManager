@@ -17,7 +17,7 @@ export default function ClassList() {
                     <Class clas={c} key={c.id} />
                 ))
             }
-            <CardLink>Add New Class</CardLink>
+            <CardLink href={`/class/add`}>Add New Class</CardLink>
         </Container>
     );
 }
