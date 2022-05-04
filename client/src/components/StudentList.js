@@ -43,7 +43,7 @@ export const StudentList = () => {
                 <CardSubtitle>
                     <img src={s.progress.imageUrl} />
                 </CardSubtitle>
-                <CardLink>Edit</CardLink>
+                <CardLink href={`/class/student/edit/${s.id}`}>Manage</CardLink>
             </Card>)}
         </Container>
     )

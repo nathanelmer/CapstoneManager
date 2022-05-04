@@ -84,5 +84,29 @@ namespace CapstoneManager.Repositories
                 }
             }
         }
+
+        public void Update(Student student)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Student
+                                        SET Name = @name,
+                                            ProposalTitle = @proposalTitle,
+                                            ProgressId = @progressId,
+                                            Note = @note
+                                        WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@name", student.Name);
+                    DbUtils.AddParameter(cmd, "@proposalTitle", student.ProposalTitle);
+                    DbUtils.AddParameter(cmd, "@progressId", student.ProgressId);
+                    DbUtils.AddParameter(cmd, "@note", student.Note);
+                    DbUtils.AddParameter(cmd, "@id", student.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

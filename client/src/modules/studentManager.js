@@ -35,3 +35,16 @@ export const getStudentById = (id) => {
         });
     });
 }
+
+export const editStudent = (student) => {
+    return getToken().then((token) => {
+        return fetch(`${studentUrl}/edit/${student.id}`, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(student),
+        });
+    });
+};
