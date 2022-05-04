@@ -21,14 +21,17 @@ export const StudentEdit = () => {
 
     useEffect(() => {
         getStudentById(id)
-            .then(data => setStudent(data));
+            .then(data => setStudent(data))
 
         getProgressTypes()
-            .then(data => setProgressTypes(data));
+            .then(data => data.filter(d => d.id != student.progress?.id))
+            .then(filtered => setProgressTypes(filtered))
+
     }, [])
 
-    const updateStudent = () => {
-        editStudent(student).then(() => history.go(`/class/1`));
+    const updateStudent = (e) => {
+        e.preventDefault();
+        editStudent(student).then(() => history.push(`/class/${student.classId}`));
     };
 
     const handleInputChange = (evt) => {
@@ -78,16 +81,15 @@ export const StudentEdit = () => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="progressId">Progress Status -- Currently: {student.progress?.name}</Label>
+                    <Label for="progressId">Progress Status</Label>
                     <Input
                         id="progressId"
                         required
                         name="progressId"
                         type="select"
-                        value={student.progressId || 0}
+                        value={student.progress?.id}
                         onChange={handleInputChange}
                     >
-                        <option value="0">Select Progress</option>
                         {progressTypes?.map((p) => (
                             <option key={`p--${p.id}`} value={p.id}>
                                 {p.name}
@@ -95,7 +97,7 @@ export const StudentEdit = () => {
                         ))}
                     </Input>
                 </FormGroup>
-                <button disabled={!student.proposalTitle || !student.progressId || !student.name} onClick={() => updateStudent()}>
+                <button disabled={!student.proposalTitle || !student.progressId || !student.name} onClick={(e) => updateStudent(e)}>
                     Save
                 </button>
                 <button className="ml-2" onClick={() => history.push(`/class/${student.classId}`)}>
