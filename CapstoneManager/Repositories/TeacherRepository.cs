@@ -36,5 +36,24 @@ namespace CapstoneManager.Repositories
                 }
             }
         }
+        public void Add(Teacher teacher)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Teacher (FirebaseUserId, Name, Email)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@FirebaseUserId, @Name, @Email)";
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", teacher.FirebaseUserId);
+                    DbUtils.AddParameter(cmd, "@Name", teacher.Name);
+                    DbUtils.AddParameter(cmd, "@Email", teacher.Email);
+
+                    teacher.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
     }
 }

@@ -11,7 +11,7 @@ export const ClassForm = () => {
     const history = useHistory();
 
     const postClass = () => {
-        addClass(newClass);
+        addClass(newClass).then(() => history.push(`/`));
     };
 
     const handleInputChange = (evt) => {

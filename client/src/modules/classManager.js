@@ -32,6 +32,18 @@ export const addClass = (newClass) => {
     })
 }
 
+export const deleteClass = (id) => {
+    return getToken().then((token) => {
+        return fetch(`${classUrl}/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+    });
+};
+
 export const addTeacherClass = (teacherClass) => {
     return getToken().then((token) => {
         return fetch(`${classUrl}/teacherClass`, {

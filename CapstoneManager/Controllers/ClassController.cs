@@ -43,5 +43,11 @@ namespace CapstoneManager.Controllers
             _classRepository.AddTeacherClass(tc);
             return NoContent();
         }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _classRepository.Delete(id);
+            return NoContent();
+        }
     }
 }
