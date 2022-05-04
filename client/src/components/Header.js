@@ -15,6 +15,7 @@ export default function Header({ isLoggedIn }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
+
     return (
         <div>
             <Navbar color="dark" dark expand="md">

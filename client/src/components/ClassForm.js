@@ -10,8 +10,11 @@ export const ClassForm = () => {
     const [newClass, setNewClass] = useState(emptyClass)
     const history = useHistory();
 
-    const postClass = () => {
-        addClass(newClass).then(() => history.push(`/`));
+    const postClass = (e) => {
+        e.preventDefault();
+        addClass(newClass)
+            .then(() => history.push(`/`));
+
     };
 
     const handleInputChange = (evt) => {
@@ -36,7 +39,7 @@ export const ClassForm = () => {
                     onInput={handleInputChange}
                 />
             </FormGroup>
-            <button disabled={!newClass.name} onClick={() => postClass()}>
+            <button disabled={!newClass.name} onClick={(e) => postClass(e)}>
                 Save
             </button>
             <button className="ml-2" onClick={() => history.push(`/`)}>

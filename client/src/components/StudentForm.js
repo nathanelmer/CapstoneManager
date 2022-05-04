@@ -24,8 +24,9 @@ export const StudentForm = () => {
             .then(data => setProgressTypes(data));
     }, [])
 
-    const postStudent = () => {
-        addStudent(student);
+    const postStudent = (e) => {
+        e.preventDefault();
+        addStudent(student).then(() => history.push(`/class/${student.classId}`));
     };
 
     const handleInputChange = (evt) => {
@@ -93,7 +94,7 @@ export const StudentForm = () => {
                         ))}
                     </Input>
                 </FormGroup>
-                <button disabled={!student.proposalTitle || !student.progressId || !student.name} onClick={() => postStudent()}>
+                <button disabled={!student.proposalTitle || !student.progressId || !student.name} onClick={(e) => postStudent(e)}>
                     Save
                 </button>
                 <button className="ml-2" onClick={() => history.push(`/class/${id}`)}>
