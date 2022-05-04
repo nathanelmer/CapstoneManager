@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CapstoneManager.Repositories;
 using System.Collections.Generic;
+using System;
 
 namespace CapstoneManager.Controllers
 {
@@ -17,7 +18,14 @@ namespace CapstoneManager.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_progressRepository.GetProgressTypes());
+            try
+            {
+                return Ok(_progressRepository.GetProgressTypes());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

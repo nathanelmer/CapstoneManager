@@ -4,6 +4,7 @@ using CapstoneManager.Repositories;
 using CapstoneManager.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace CapstoneManager.Controllers
 {
@@ -28,26 +29,48 @@ namespace CapstoneManager.Controllers
         public IActionResult GetTeachersClasses()
         {
             var teacher = GetCurrentTeacher();
-            return Ok(_classRepository.GetClassesByTeacherId(teacher.Id));
+            try
+            {
+                return Ok(_classRepository.GetClassesByTeacherId(teacher.Id));
+            } 
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
         [HttpPost]
         public IActionResult Post(Class newClass)
         {
-            var teacher = GetCurrentTeacher();
-            int classId = _classRepository.Add(newClass);
-            var tc = new TeacherClass
+            
+            try
             {
-                ClassId = classId,
-                TeacherId = teacher.Id
-            };
-            _classRepository.AddTeacherClass(tc);
-            return NoContent();
+                var teacher = GetCurrentTeacher();
+                int classId = _classRepository.Add(newClass);
+                var tc = new TeacherClass
+                {
+                    ClassId = classId,
+                    TeacherId = teacher.Id
+                };
+                _classRepository.AddTeacherClass(tc);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _classRepository.Delete(id);
-            return NoContent();
+            try
+            {
+                _classRepository.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

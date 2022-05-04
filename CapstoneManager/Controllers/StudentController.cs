@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CapstoneManager.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using CapstoneManager.Models;
+using System;
 
 namespace CapstoneManager.Controllers
 {
@@ -19,37 +20,69 @@ namespace CapstoneManager.Controllers
         [HttpGet("{id}")]
         public IActionResult GetStudentsByClassId(int id)
         {
-            return Ok(_studentRepo.GetStudentsByClassId(id));
+            try
+            {
+                return Ok(_studentRepo.GetStudentsByClassId(id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+            
         }
         [HttpGet("details/{id}")]
         public IActionResult GetStudent(int id)
         {
-            return Ok(_studentRepo.GetStudentById(id));
+            try
+            {
+                return Ok(_studentRepo.GetStudentById(id));
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+            
         }
         [HttpPut("edit/{id}")]
         public IActionResult Put(int id, Student student)
         {
-            if(id != student.Id)
-            {
-                return BadRequest();
-            }
-            else
-            {
-               _studentRepo.Update(student);
-                return NoContent();
-            }
+                if (id != student.Id)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    _studentRepo.Update(student);
+                    return NoContent();
+                }   
         }
         [HttpPost]
         public IActionResult Post(Student student)
         {
-            _studentRepo.Add(student);
-            return NoContent();
+            try
+            {
+                _studentRepo.Add(student);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+           
         }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _studentRepo.Delete(id);
-            return NoContent();
+            try
+            {
+                _studentRepo.Delete(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+            
         }
     }
 }
