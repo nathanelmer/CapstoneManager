@@ -28,7 +28,7 @@ export const StudentEdit = () => {
     }, [])
 
     const updateStudent = () => {
-        editStudent(student).then(() => history.push(`/class/1`));
+        editStudent(student).then(() => history.go(`/class/1`));
     };
 
     const handleInputChange = (evt) => {
@@ -78,7 +78,7 @@ export const StudentEdit = () => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="progressId">Progress Status</Label>
+                    <Label for="progressId">Progress Status -- Currently: {student.progress?.name}</Label>
                     <Input
                         id="progressId"
                         required
@@ -99,7 +99,7 @@ export const StudentEdit = () => {
                     Save
                 </button>
                 <button className="ml-2" onClick={() => history.push(`/class/${student.classId}`)}>
-                    Cancel
+                    Go Back
                 </button>
             </Form>
         </Container>
