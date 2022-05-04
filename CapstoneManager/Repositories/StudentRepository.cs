@@ -108,5 +108,26 @@ namespace CapstoneManager.Repositories
                 }
             }
         }
+
+        public void Add(Student student)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Student (ClassId, Name, ProposalTitle, ProgressId, Note)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@classId, @name, @proposalTitle, @progressId, @note)";
+                    DbUtils.AddParameter(cmd, "@classId", student.ClassId);
+                    DbUtils.AddParameter(cmd, "name", student.Name);
+                    DbUtils.AddParameter(cmd, "proposalTitle", student.ProposalTitle);
+                    DbUtils.AddParameter(cmd, "progressId", student.ProgressId);
+                    DbUtils.AddParameter(cmd, "@note", student.Note);
+
+                    student.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }

@@ -5,11 +5,13 @@ import { Card, CardTitle, CardSubtitle, Container, CardLink } from "reactstrap";
 import "../index.css";
 import { getProgressTypes } from "../modules/progressManager";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const StudentList = () => {
-    const [students, setStudents] = useState([])
-    const [progressTypes, setProgressTypes] = useState([])
-    const { id } = useParams()
+    const [students, setStudents] = useState([]);
+    const [progressTypes, setProgressTypes] = useState([]);
+    const { id } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         getStudentsByClassId(id)
@@ -35,6 +37,7 @@ export const StudentList = () => {
                     <option value="0">All Students</option>
                     {progressTypes.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                 </select>
+                <button onClick={() => history.push(`/class/student/add/${id}`)}>Add Student</button>
             </div>
             {students.map(s => <Card key={s.id}>
                 <CardTitle>

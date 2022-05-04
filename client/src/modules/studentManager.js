@@ -19,6 +19,19 @@ export const getStudentsByClassId = (id) => {
     });
 }
 
+export const addStudent = (student) => {
+    return getToken().then((token) => {
+        return fetch(`${studentUrl}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(student)
+        })
+    })
+}
+
 export const getStudentById = (id) => {
     return getToken().then((token) => {
         return fetch(`${studentUrl}/details/${id}`, {

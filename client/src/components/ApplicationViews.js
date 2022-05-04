@@ -6,6 +6,7 @@ import ClassList from "./ClassList";
 import { StudentList } from "./StudentList";
 import { StudentDetails } from "./StudentDetails";
 import { StudentEdit } from "./StudentEdit";
+import { StudentForm } from "./StudentForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
     return (
@@ -25,6 +26,9 @@ export default function ApplicationViews({ isLoggedIn }) {
                 </Route>
                 <Route exact path="/class/student/edit/:id(\d+)">
                     <StudentEdit />
+                </Route>
+                <Route exact path="/class/student/add/:id(\d+)">
+                    <StudentForm />
                 </Route>
                 <Route path="/register">
                     <Register />
