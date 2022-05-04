@@ -30,5 +30,24 @@ namespace CapstoneManager.Controllers
             var teacher = GetCurrentTeacher();
             return Ok(_classRepository.GetClassesByTeacherId(teacher.Id));
         }
+        [HttpPost]
+        public IActionResult Post(Class newClass)
+        {
+            var teacher = GetCurrentTeacher();
+            int classId = _classRepository.Add(newClass);
+            var tc = new TeacherClass
+            {
+                ClassId = classId,
+                TeacherId = teacher.Id
+            };
+            _classRepository.AddTeacherClass(tc);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _classRepository.Delete(id);
+            return NoContent();
+        }
     }
 }

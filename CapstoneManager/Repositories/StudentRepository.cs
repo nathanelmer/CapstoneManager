@@ -46,5 +46,103 @@ namespace CapstoneManager.Repositories
                 }
             }
         }
+
+        public Student GetStudentById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using ( var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT s.Id, s.ClassId, s.Name, s.ProposalTitle, s.Note, p.Id progressId, p.Name progressName, p.ImageUrl
+                                        FROM Student s
+                                        JOIN Progress p ON p.Id = s.ProgressId
+                                        WHERE s.Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+                    Student student = null;
+                    var reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        student = new Student()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            ClassId = DbUtils.GetInt(reader, "ClassId"),
+                            ProposalTitle = DbUtils.GetString(reader, "ProposalTitle"),
+                            Note = DbUtils.GetString(reader, "Note"),
+                            Progress = new Progress()
+                            {
+                                Id = DbUtils.GetInt(reader, "progressId"),
+                                Name = DbUtils.GetString(reader, "progressName"),
+                                ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+                            }
+                        };
+                    }
+                    reader.Close();
+                    return student;
+                }
+            }
+        }
+
+        public void Update(Student student)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE Student
+                                        SET Name = @name,
+                                            ProposalTitle = @proposalTitle,
+                                            ProgressId = @progressId,
+                                            Note = @note
+                                        WHERE Id = @id";
+                    DbUtils.AddParameter(cmd, "@name", student.Name);
+                    DbUtils.AddParameter(cmd, "@proposalTitle", student.ProposalTitle);
+                    DbUtils.AddParameter(cmd, "@progressId", student.ProgressId);
+                    DbUtils.AddParameter(cmd, "@note", student.Note);
+                    DbUtils.AddParameter(cmd, "@id", student.Id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void Add(Student student)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Student (ClassId, Name, ProposalTitle, ProgressId, Note)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@classId, @name, @proposalTitle, @progressId, @note)";
+                    DbUtils.AddParameter(cmd, "@classId", student.ClassId);
+                    DbUtils.AddParameter(cmd, "name", student.Name);
+                    DbUtils.AddParameter(cmd, "proposalTitle", student.ProposalTitle);
+                    DbUtils.AddParameter(cmd, "progressId", student.ProgressId);
+                    DbUtils.AddParameter(cmd, "@note", student.Note);
+
+                    student.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using(var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Student
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

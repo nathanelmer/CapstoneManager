@@ -39,5 +39,54 @@ namespace CapstoneManager.Repositories
             }
         }
 
+        public int Add(Class newClass)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO Class (Name)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@name)";
+                    cmd.Parameters.AddWithValue("@name", newClass.Name);
+                    newClass.Id = (int)cmd.ExecuteScalar();
+                    return newClass.Id;
+                }
+            }
+        }
+
+        public void AddTeacherClass(TeacherClass tc)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"INSERT INTO TeacherClass (ClassId, TeacherId)
+                                        OUTPUT INSERTED.ID
+                                        VALUES (@classId, @teacherId)";
+                    cmd.Parameters.AddWithValue("@classId", tc.ClassId);
+                    cmd.Parameters.AddWithValue("@teacherId", tc.TeacherId);
+                    tc.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"DELETE FROM Class
+                                        WHERE Id = @id";
+                        
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

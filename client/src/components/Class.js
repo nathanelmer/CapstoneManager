@@ -8,6 +8,7 @@ export const Class = ({ clas }) => {
             <CardBody>
                 <CardSubtitle>{clas.name}</CardSubtitle>
                 <CardLink href={`/class/${clas.id}`}>Manage</CardLink>
+                <CardLink href={`/class/delete/${clas.id}`}>Delete</CardLink>
             </CardBody>
         </Card>
     );

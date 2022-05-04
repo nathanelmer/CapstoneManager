@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using CapstoneManager.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CapstoneManager.Models;
 
 namespace CapstoneManager.Controllers
 {
@@ -19,6 +20,36 @@ namespace CapstoneManager.Controllers
         public IActionResult GetStudentsByClassId(int id)
         {
             return Ok(_studentRepo.GetStudentsByClassId(id));
+        }
+        [HttpGet("details/{id}")]
+        public IActionResult GetStudent(int id)
+        {
+            return Ok(_studentRepo.GetStudentById(id));
+        }
+        [HttpPut("edit/{id}")]
+        public IActionResult Put(int id, Student student)
+        {
+            if(id != student.Id)
+            {
+                return BadRequest();
+            }
+            else
+            {
+               _studentRepo.Update(student);
+                return NoContent();
+            }
+        }
+        [HttpPost]
+        public IActionResult Post(Student student)
+        {
+            _studentRepo.Add(student);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _studentRepo.Delete(id);
+            return NoContent();
         }
     }
 }

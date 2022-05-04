@@ -30,5 +30,11 @@ namespace CapstoneManager.Controllers
             }
             return Ok();
         }
+        [HttpPost]
+        public IActionResult Post(Teacher teacher)
+        {
+            _teacherRepo.Add(teacher);
+            return NoContent();
+        }
     }
 }
