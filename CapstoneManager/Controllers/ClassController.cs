@@ -5,6 +5,7 @@ using CapstoneManager.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Linq;
 
 namespace CapstoneManager.Controllers
 {
@@ -38,6 +39,35 @@ namespace CapstoneManager.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("all")]
+        public IActionResult GetAllClasses()
+        {
+            try
+            {
+                var classes = _classRepository.GetAllClasses();
+                return Ok(classes);
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost("join")]
+        public IActionResult JoinClass(TeacherClass tc)
+        {
+            try
+            {
+                tc.TeacherId = GetCurrentTeacher().Id;
+                _classRepository.AddTeacherClass(tc);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(Class newClass)
         {

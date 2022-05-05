@@ -18,6 +18,7 @@ export default function ClassList() {
                 ))
             }
             <CardLink href={`/class/add`}>Add New Class</CardLink>
+            <CardLink href={`/class/all`}>Join Existing Class</CardLink>
         </Container>
     );
 }

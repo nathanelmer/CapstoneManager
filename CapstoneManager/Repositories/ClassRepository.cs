@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CapstoneManager.Models;
 using CapstoneManager.Utils;
+using System.Linq;
 
 namespace CapstoneManager.Repositories
 {
@@ -39,6 +40,52 @@ namespace CapstoneManager.Repositories
             }
         }
 
+        public List<Class> GetAllClasses()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT c.Name, c.Id, tc.ClassId, tc.TeacherId, tc.Id tcId
+                                        FROM Class c
+                                        JOIN TeacherClass tc ON tc.ClassId = c.Id";
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var classes = new List<Class>();
+                        while (reader.Read())
+                        {
+                            var classId = DbUtils.GetInt(reader, "Id");
+                            var existingClass = classes.FirstOrDefault(c => c.Id == classId);
+                            if (existingClass == null)
+                            {
+                                existingClass = new Class()
+                                {
+                                    Id = classId,
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    TeacherClasses = new List<TeacherClass>()
+                                };
+
+                                classes.Add(existingClass);
+                            }
+
+
+                            if (DbUtils.IsNotDbNull(reader, "tcId"))
+                            {
+                                existingClass.TeacherClasses.Add(new TeacherClass()
+                                {
+                                    Id = DbUtils.GetInt(reader, "tcId"),
+                                    ClassId = DbUtils.GetInt(reader, "ClassId"),
+                                    TeacherId = DbUtils.GetInt(reader, "TeacherId")
+                                });
+                            }
+                        }
+                        return classes;
+                    }
+                }
+            }
+        }
         public int Add(Class newClass)
         {
             using (var conn = Connection)
