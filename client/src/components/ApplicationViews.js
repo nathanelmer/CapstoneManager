@@ -10,6 +10,7 @@ import { StudentForm } from "./StudentForm";
 import { StudentDelete } from "./StudentDelete";
 import { ClassForm } from "./ClassForm";
 import { ClassDelete } from "./ClassDelete";
+import ExistingClassList from "./ExistingClassList";
 
 export default function ApplicationViews({ isLoggedIn }) {
     return (
@@ -26,6 +27,9 @@ export default function ApplicationViews({ isLoggedIn }) {
                 </Route>
                 <Route exact path="/class/add">
                     <ClassForm />
+                </Route>
+                <Route exact path="/class/all">
+                    <ExistingClassList />
                 </Route>
                 <Route exact path="/class/delete/:id(\d+)">
                     <ClassDelete />

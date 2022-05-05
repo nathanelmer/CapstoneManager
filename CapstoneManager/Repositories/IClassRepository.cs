@@ -9,5 +9,6 @@ namespace CapstoneManager.Repositories
         int Add(Class newClass);
         void AddTeacherClass(TeacherClass tc);
         void Delete(int id);
+        List<Class> GetAllClasses();
     }
 }
